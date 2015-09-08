@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B9D12E6A-AB2B-4AAB-9EF5-64B4C75DC914}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HamAprsParser</RootNamespace>
+    <AssemblyName>HamAprsParser</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Content Include="LGPL-3.0.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AprsPacket.cs" />
+    <Compile Include="Callsign.cs" />
+    <Compile Include="Exceptions\AprsException.cs" />
+    <Compile Include="Exceptions\AprsPacketException.cs" />
+    <Compile Include="Exceptions\AprsParserException.cs" />
+    <Compile Include="Extensions\CourseAndSpeedExtension.cs" />
+    <Compile Include="Extensions\IDataExtension.cs" />
+    <Compile Include="Extensions\PHGExtension.cs" />
+    <Compile Include="Extensions\RangeExtension.cs" />
+    <Compile Include="Parsers\Conversions.cs" />
+    <Compile Include="Parsers\Formats\CompressedPosition.cs" />
+    <Compile Include="Parsers\Formats\MiCePosition.cs" />
+    <Compile Include="Parsers\Formats\AprsWx.cs" />
+    <Compile Include="Parsers\Formats\UltimeterWx.cs" />
+    <Compile Include="Parsers\Formats\NmeaPosition.cs" />
+    <Compile Include="Parsers\Formats\UnCompressedPosition.cs" />
+    <Compile Include="Parsers\ItemParser.cs" />
+    <Compile Include="Parsers\ObjectParser.cs" />
+    <Compile Include="Parsers\MessageParser.cs" />
+    <Compile Include="Parsers\AprsPacketParser.cs" />
+    <Compile Include="Parsers\PositionParser.cs" />
+    <Compile Include="Parsers\TimestampParser.cs" />
+    <Compile Include="Parsers\WeatherParser.cs" />
+    <Compile Include="Payloads\ItemPayload.cs" />
+    <Compile Include="Payloads\MessagePayload.cs" />
+    <Compile Include="Payloads\ObjectPayload.cs" />
+    <Compile Include="Payloads\Payload.cs" />
+    <Compile Include="Payloads\PositionPayload.cs" />
+    <Compile Include="Payloads\UnsupportedPayload.cs" />
+    <Compile Include="Payloads\WeatherPayload.cs" />
+    <Compile Include="PositionType.cs" />
+    <Compile Include="PayloadType.cs" />
+    <Compile Include="PositionData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeatherData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\HamAprsParser.licenseheader" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
