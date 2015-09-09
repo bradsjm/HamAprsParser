@@ -16,7 +16,6 @@
  * License along with this library.
  */
 
-using System.Text.RegularExpressions;
 using HamAprsParser.Exceptions;
 using HamAprsParser.Payloads;
 
@@ -24,13 +23,9 @@ namespace HamAprsParser.Parsers
 {
     internal static class ObjectParser
     {
-        private static readonly Regex ObjectRegex = new Regex(
-            @"^;(?<name>[\x20-\x7e]{9})\s*(?<state>[*_])(?<timestamp>[0-9]{6}[zh/])(?<position>.+)$",
-            RegexOptions.ExplicitCapture);
-
         public static ObjectPayload CreateFromString(string packet)
         {
-            var result = ObjectRegex.Match(packet);
+            var result = Patterns.ObjectRegex.Match(packet);
 
             if (!result.Success)
                 throw new AprsParserException(packet, "Unable to parse object payload in packet");

@@ -16,7 +16,6 @@
  * License along with this library.
  */
 
-using System.Text.RegularExpressions;
 using HamAprsParser.Exceptions;
 using HamAprsParser.Payloads;
 
@@ -24,13 +23,9 @@ namespace HamAprsParser.Parsers
 {
     internal static class ItemParser
     {
-        private static readonly Regex ItemRegex = new Regex(
-            @"^\)(?<name>[\x20-\x7e]{3,9})(?<state>[!_])(?<position>.+)$",
-            RegexOptions.ExplicitCapture);
-
         public static ItemPayload CreateFromString(string packet)
         {
-            var result = ItemRegex.Match(packet);
+            var result = Patterns.ItemRegex.Match(packet);
 
             if (!result.Success)
                 throw new AprsParserException(packet, "Unable to parse item payload in packet");

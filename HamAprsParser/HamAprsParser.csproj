@@ -49,6 +49,7 @@
     <Compile Include="Extensions\IDataExtension.cs" />
     <Compile Include="Extensions\PHGExtension.cs" />
     <Compile Include="Extensions\RangeExtension.cs" />
+    <Compile Include="Parsers\Patterns.cs" />
     <Compile Include="Parsers\Conversions.cs" />
     <Compile Include="Parsers\Formats\CompressedPosition.cs" />
     <Compile Include="Parsers\Formats\MiCePosition.cs" />

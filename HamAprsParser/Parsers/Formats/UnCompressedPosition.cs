@@ -23,25 +23,6 @@ namespace HamAprsParser.Parsers.Formats
 {
     internal static class UnCompressedPosition
     {
-
-        #region Private Fields
-
-        /// <summary>
-        /// The 7-byte CSE/SPD Data Extension can be used to represent the course and
-        /// speed of a vehicle or APRS Object. The course is expressed in degrees (001-360),
-        /// clockwise from due north. The speed is expressed in knots.
-        /// </summary>
-        private static readonly Regex CourseSpeedExtension = new Regex(@"^.{20}(?<course>[0-9. ]{3})/(?<speed>[0-9. ]{3})", RegexOptions.ExplicitCapture);
-
-        /// <summary>
-        /// The 7-byte PHGphgd Data Extension specifies the transmitter power,
-        /// effective antenna height-above-average-terrain, antenna gain and antenna directivity.
-        /// APRS uses this information to plot radio range circles around stations.
-        /// </summary>
-        private static readonly Regex PhgExtension = new Regex(@"^.{20}PHG(?<power>[0-9])(?<height>[\x30-\x7e])(?<gain>[0-9])(?<dir>[0-8])(?<rate>[0-9A-Z])?", RegexOptions.ExplicitCapture);
-
-        #endregion Private Fields
-
         #region Public Methods
 
         /// <summary>
@@ -134,7 +115,7 @@ namespace HamAprsParser.Parsers.Formats
         /// <returns>IDataExtension.</returns>
         public static IDataExtension ParseUnCompressedExtension(string payloadData)
         {
-            var match = PhgExtension.Match(payloadData);
+            var match = Patterns.PhgExtension.Match(payloadData);
             if (match.Success)
             {
                 int? rate = null;
@@ -160,7 +141,7 @@ namespace HamAprsParser.Parsers.Formats
                 };
             }
 
-            match = CourseSpeedExtension.Match(payloadData);
+            match = Patterns.CourseSpeedExtension.Match(payloadData);
             if (match.Success)
             {
                 var course = Conversions.ParseInt(match.Groups["course"].Value);

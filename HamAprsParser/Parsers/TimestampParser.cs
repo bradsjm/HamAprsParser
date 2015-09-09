@@ -26,18 +26,6 @@ namespace HamAprsParser.Parsers
     /// </summary>
     internal static class TimestampParser
     {
-        // Day/Hours/Minutes zulu/local
-        private static readonly Regex DayHourMinuteRegex = 
-            new Regex("^[/@]?(?<day>[0-3][0-9])(?<hour>[0-2][0-9])(?<minute>[0-5][0-9])(?<zone>[z/])", RegexOptions.ExplicitCapture);
-
-        // Hour/Minute/Second zulu
-        private static readonly Regex HourMinuteSecondRegex =
-            new Regex("^[/@]?(?<hour>[0-2][0-9])(?<minute>[0-5][0-9])(?<second>[0-5][0-9])h", RegexOptions.ExplicitCapture);
-
-        // Month/Day/Hour/Minute zulu
-        private static readonly Regex MonthDayHourMinuteRegex = 
-            new Regex("^(?<month>[01][0-9])(?<day>[0-3][0-9])(?<hour>[0-2][0-9])(?<minute>[0-5][0-9])", RegexOptions.ExplicitCapture);
-
         /// <summary>
         /// Parses the Day Hour Minute and Hour Minute Second formats and attempts to return a date time offset.
         /// </summary>
@@ -59,7 +47,7 @@ namespace HamAprsParser.Parsers
         /// <returns></returns>
         public static DateTimeOffset? ParseDayHourMinute(string timestamp, DateTimeOffset? reference = null)
         {
-            var result = DayHourMinuteRegex.Match(timestamp);
+            var result = Patterns.DayHourMinuteRegex.Match(timestamp);
             if (!result.Success) return null;
 
             var offset = result.Groups["zone"].Value == "z" ? DateTimeOffset.UtcNow.Offset : DateTimeOffset.Now.Offset;
@@ -91,7 +79,7 @@ namespace HamAprsParser.Parsers
         /// <returns></returns>
         public static DateTimeOffset? ParseHourMinuteSecond(string timestamp, DateTimeOffset? reference = null)
         {
-            var result = HourMinuteSecondRegex.Match(timestamp);
+            var result = Patterns.HourMinuteSecondRegex.Match(timestamp);
             if (!result.Success) return null;
 
             var current = reference ?? DateTimeOffset.UtcNow;
@@ -128,7 +116,7 @@ namespace HamAprsParser.Parsers
         /// <returns></returns>
         public static DateTimeOffset? ParseMonthDayHourMinute(string timestamp, DateTimeOffset? reference = null)
         {
-            var result = MonthDayHourMinuteRegex.Match(timestamp);
+            var result = Patterns.MonthDayHourMinuteRegex.Match(timestamp);
             if (!result.Success) return null;
 
             var current = reference ?? DateTimeOffset.UtcNow;

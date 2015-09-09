@@ -16,7 +16,6 @@
  * License along with this library.
  */
 
-using System.Text.RegularExpressions;
 using HamAprsParser.Exceptions;
 using HamAprsParser.Payloads;
 
@@ -24,23 +23,6 @@ namespace HamAprsParser.Parsers
 {
     internal static class MessageParser
     {
-        // :BLNA       : Mt Gambier Digi on 145.175Mhz
-        private static readonly Regex AckRegex = new Regex(
-            "^ack(?<ack>[A-Za-z0-9]{1,5})", RegexOptions.ExplicitCapture);
-
-        private static readonly Regex MessageRegex = new Regex(
-            @"^:(?<target>[A-Za-z0-9_ -]{9})\s*:(?<content>.*)$",
-            RegexOptions.ExplicitCapture);
-
-        private static readonly Regex MsgIdRegex = new Regex(
-            "^(?<msg>[^{]*)\\{(?<msgid>[A-Za-z0-9]{1,5})", RegexOptions.ExplicitCapture);
-
-        private static readonly Regex RejRegex = new Regex(
-            "^rej(?<rej>[A-Za-z0-9]{1,5})", RegexOptions.ExplicitCapture);
-
-        private static readonly Regex TelemetryRegex = new Regex(
-            "^(BITS|PARM|UNIT|EQNS)\\.");
-
         /// <summary>
         /// Creates from string.
         /// </summary>
@@ -50,7 +32,7 @@ namespace HamAprsParser.Parsers
         /// <exception cref="HamAprsParser.Exceptions.AprsParserException">Unable to parse message payload in packet</exception>
         public static MessagePayload CreateFromString(string packet, Callsign destCall)
         {
-            var result = MessageRegex.Match(packet);
+            var result = Patterns.MessageRegex.Match(packet);
 
             if (!result.Success)
                 throw new AprsParserException(packet, "Unable to parse message payload in packet");
@@ -67,7 +49,7 @@ namespace HamAprsParser.Parsers
                 payload.TargetCall = destCall;
 
             // Check for Ack type message
-            result = AckRegex.Match(payload.MessageBody);
+            result = Patterns.AckRegex.Match(payload.MessageBody);
             if (result.Success)
             {
                 payload.IsAck = true;
@@ -77,7 +59,7 @@ namespace HamAprsParser.Parsers
             }
 
             // Check for Rej type message
-            result = RejRegex.Match(payload.MessageBody);
+            result = Patterns.RejRegex.Match(payload.MessageBody);
             if (result.Success)
             {
                 payload.IsRej = true;
@@ -87,7 +69,7 @@ namespace HamAprsParser.Parsers
             }
 
             // Attempt to seperate id from message if present
-            result = MsgIdRegex.Match(payload.MessageBody);
+            result = Patterns.MsgIdRegex.Match(payload.MessageBody);
             if (result.Success)
             {
                 payload.MessageId = result.Groups["msgid"].Value;
@@ -96,7 +78,7 @@ namespace HamAprsParser.Parsers
             }
 
             // Check for telemetry indicator
-            result = TelemetryRegex.Match(payload.MessageBody);
+            result = Patterns.TelemetryRegex.Match(payload.MessageBody);
             if (result.Success)
                 payload.Type = PayloadType.Telemetry;
 

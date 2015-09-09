@@ -16,7 +16,6 @@
  * License along with this library.
  */
 
-using System.Text.RegularExpressions;
 using HamAprsParser.Exceptions;
 using HamAprsParser.Parsers.Formats;
 using HamAprsParser.Payloads;
@@ -29,16 +28,6 @@ namespace HamAprsParser.Parsers
     /// </summary>
     internal static class AprsPacketParser
     {
-
-        #region Private Fields
-
-        // Envelope parser. E.g. JH6YLM>APRS,RELAY,TRACE5-5,qAo,JA6JMJ-3:!3210.70N/13132.15E#15 KAWA
-        private static readonly Regex EnvelopeRegex = new Regex(
-            "^(?<source>[A-Za-z0-9-]{1,9})>(?<dest>[A-Za-z0-9-,*]+?):(?<information>.+)$",
-            RegexOptions.ExplicitCapture);
-
-        #endregion Private Fields
-
         #region Public Methods
 
         /// <summary>
@@ -49,7 +38,7 @@ namespace HamAprsParser.Parsers
         /// <exception cref="AprsPacketException">Invalid packet format (regex failed)</exception>
         public static AprsPacket CreateFromString(string packet)
         {
-            var result = EnvelopeRegex.Match(packet);
+            var result = Patterns.EnvelopeRegex.Match(packet);
             if (!result.Success)
                 throw new AprsPacketException(packet, "Unable to parse APRS packet envelope");
 

@@ -16,8 +16,6 @@
  * License along with this library.
  */
 
-using System;
-using System.Text.RegularExpressions;
 using HamAprsParser.Exceptions;
 using HamAprsParser.Extensions;
 
@@ -25,10 +23,6 @@ namespace HamAprsParser.Parsers.Formats
 {
     internal static class MicEPosition
     {
-        // Destination callsign is six characters.
-        // A-K characters are not used in the last 3 characters and MNO are never used
-        private static readonly Regex ValidDestRegex = new Regex("^[0-9A-LP-Z]{3}[0-9LP-Z]{3}$", RegexOptions.IgnoreCase);
-
         /// <summary>
         /// Parses the specified MiCe payload bytes and destination call as position.
         /// </summary>

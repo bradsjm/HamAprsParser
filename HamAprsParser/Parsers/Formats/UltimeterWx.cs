@@ -22,14 +22,6 @@ namespace HamAprsParser.Parsers.Formats
 {
     internal static class UltimeterWx
     {
-        private static readonly Regex DataLoggerMode = new Regex(
-            "^!!(?<wind>[0-9A-F-]{4})([0F-]{2})(?<dir>[0-9A-F-]{2})(?<outtemp>[0-9A-F-]{4})(?<raintotal>[0-9A-F-]{4})(?<pressure>[0-9A-F-]{4})(?<intemp>[0-9A-F-]{4})(?<humidity>[0-9A-F-]{4})(?<inhumidity>[0-9A-F-]{4})(?<day>[0-9A-F-]{4})(?<time>[0-9A-F-]{4})(?<dayrain>[0-9A-F-]{4})?(?<windavg>[0-9A-F-]{4})?$",
-            RegexOptions.ExplicitCapture);
-
-        private static readonly Regex PacketMode = new Regex(
-            @"^\$ULTW(?<wind>[0-9A-F-]{4})([0F-]{2})(?<dir>[0-9A-F-]{2})(?<outtemp>[0-9A-F-]{4})(?<raintotal>[0-9A-F-]{4})(?<pressure>[0-9A-F-]{4})([0-9A-F-]{4})([0-9A-F-]{4})([0-9A-F-]{4})(?<humidity>[0-9A-F-]{4})(?<day>[0-9A-F-]{4})(?<time>[0-9A-F-]{4})(?<dayrain>[0-9A-F-]{4})(?<windavg>[0-9A-F-]{4})$",
-            RegexOptions.ExplicitCapture);
-
         /// <summary>
         /// Parses the datalogger packet from the Ultimeter 2000.
         /// </summary>
@@ -53,7 +45,7 @@ namespace HamAprsParser.Parsers.Formats
             windSpeedMph = rainInchMidnight = temperatureF = pressure = null;
             humidity = windDirection = null;
 
-            var result = (payload[0] == '$') ? PacketMode.Match(payload) : DataLoggerMode.Match(payload);
+            var result = (payload[0] == '$') ? Patterns.PacketMode.Match(payload) : Patterns.DataLoggerMode.Match(payload);
             if (!result.Success) return false;
 
             if (result.Groups["wind"].Value[0] != '-')
